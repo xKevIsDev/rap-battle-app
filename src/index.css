@@ -1,3 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Background noise texture */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* Glow orbs */
+.glow-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-orb-1 {
+  width: 500px;
+  height: 500px;
+  top: -150px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%);
+  animation: orb-drift-1 12s ease-in-out infinite;
+}
+
+.glow-orb-2 {
+  width: 600px;
+  height: 600px;
+  bottom: -200px;
+  right: -200px;
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.12) 0%, transparent 70%);
+  animation: orb-drift-2 15s ease-in-out infinite;
+}
+
+.glow-orb-3 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(234, 179, 8, 0.06) 0%, transparent 70%);
+  animation: orb-drift-3 10s ease-in-out infinite;
+}
+
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, 40px); }
+}
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-40px, -30px); }
+}
+@keyframes orb-drift-3 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.2); }
+}
+
+/* Fire gradient text */
+.text-gradient-fire {
+  background: linear-gradient(135deg, #ef4444 0%, #f97316 40%, #eab308 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Battle card */
+.battle-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+.battle-card-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, transparent 50%, rgba(251, 146, 60, 0.05) 100%);
+}
+
+/* Fighter card */
+.fighter-card {
+  @apply flex flex-col items-center text-center relative p-6 rounded-2xl transition-all duration-500;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.fighter-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+.fighter-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.fighter-card:hover .fighter-glow {
+  opacity: 1;
+}
+
+.fighter-glow-red {
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.2), inset 0 0 40px rgba(239, 68, 68, 0.05);
+}
+
+.fighter-glow-amber {
+  box-shadow: 0 0 40px rgba(251, 146, 60, 0.2), inset 0 0 40px rgba(251, 146, 60, 0.05);
+}
+
+/* Fighter avatar */
+.fighter-avatar {
+  @apply w-24 h-24 rounded-2xl flex items-center justify-center mb-5 mx-auto;
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fighter-card:hover .fighter-avatar {
+  transform: scale(1.05);
+  box-shadow: 0 30px 80px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* Fighter badge */
+.fighter-badge {
+  @apply absolute -top-2 -right-2 flex items-center gap-1 px-2 py-1 rounded-full text-white text-xs font-bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Fighter name */
+.fighter-name {
+  @apply text-4xl font-black text-white tracking-tight mb-4;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+/* Fighter stats */
+.fighter-stats {
+  @apply flex gap-2 flex-wrap justify-center;
+}
+
+.stat-pill {
+  @apply flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;
+}
+
+.fighter-card:hover .stat-pill {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* VS container */
+.vs-container {
+  @apply relative flex items-center justify-center;
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+.vs-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  animation: vs-pulse 3s ease-in-out infinite;
+}
+
+.vs-ring-2 {
+  inset: -12px;
+  border-color: rgba(255, 255, 255, 0.04);
+  animation-delay: 1.5s;
+}
+
+@keyframes vs-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.08); }
+}
+
+.vs-text {
+  @apply text-4xl font-black relative z-10;
+  background: linear-gradient(135deg, #ef4444, #f97316, #eab308);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.5));
+  animation: vs-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes vs-glow {
+  from { filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.3)); }
+  to { filter: drop-shadow(0 0 30px rgba(249, 115, 22, 0.7)); }
+}
+
+/* Equalizer */
+.equalizer {
+  @apply flex items-end justify-center gap-1;
+  height: 48px;
+}
+
+.eq-bar {
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to top, #ef4444, #f97316, #eab308);
+  animation: eq-bounce 1.2s ease-in-out infinite alternate;
+  height: var(--bar-height, 16px);
+  opacity: 0.7;
+}
+
+@keyframes eq-bounce {
+  0% { height: 6px; opacity: 0.4; }
+  100% { height: var(--bar-height, 16px); opacity: 0.9; }
+}
